@@ -77,11 +77,11 @@ jobs:
           toolchain: ${{ env.toolchain_msrv }}
           override: true
       - uses: Swatinem/rust-cache@v2
-      - name: cargo check -p h3
+      - name: cargo check -p sec-http3
         uses: actions-rs/cargo@v1
         with:
           command: check
-          args: -p h3
+          args: -p sec-http3
 
   test:
     name: Test ${{ matrix.toolchain }} ${{ matrix.os }}
@@ -121,11 +121,11 @@ jobs:
           toolchain: ${{ env.toolchain_doc }}
           override: true
       - uses: Swatinem/rust-cache@v2
-      - name: cargo rustdoc -p h3 -- -D intra-doc-link-resolution-failure
+      - name: cargo rustdoc -p sec-http3 -- -D intra-doc-link-resolution-failure
         uses: actions-rs/cargo@v1
         with:
           command: rustdoc
-          args: -p h3 -- -D intra-doc-link-resolution-failure
+          args: -p sec-http3 -- -D intra-doc-link-resolution-failure
 
   fuzz:
     name: Fuzz test
