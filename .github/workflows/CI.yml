@@ -9,7 +9,6 @@ env:
   RUST_BACKTRACE: 1
   toolchain_style: stable
   toolchain_msrv: 1.57
-  toolchain_h3_quinn_msrv: 1.63
   toolchain_doc: nightly-2023-03-22
   toolchain_lint: stable
   toolchain_fuzz: nightly-2023-03-22
@@ -22,7 +21,6 @@ jobs:
       - style
       - lint
       - msrv
-      - msrv_h3_quinn
       - test
       - doc
       - fuzz
@@ -84,25 +82,6 @@ jobs:
         with:
           command: check
           args: -p h3
-
-  msrv_h3_quinn:
-    name: Check MSRV of `h3-quinn`
-    needs: [style]
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - name: Install Rust ${{ env.toolchain_h3_quinn_msrv }}
-        uses: actions-rs/toolchain@v1
-        with:
-          profile: minimal
-          toolchain: ${{ env.toolchain_h3_quinn_msrv }}
-          override: true
-      - uses: Swatinem/rust-cache@v2
-      - name: cargo check -p h3-quinn
-        uses: actions-rs/cargo@v1
-        with:
-          command: check
-          args: -p h3-quinn
 
   test:
     name: Test ${{ matrix.toolchain }} ${{ matrix.os }}
