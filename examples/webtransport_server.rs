@@ -1,16 +1,17 @@
 use anyhow::{Context, Result};
 use bytes::{BufMut, Bytes, BytesMut};
-use h3::{
+use sec_http3::{
     error::ErrorLevel,
     ext::Protocol,
     quic::{self, RecvDatagramExt, SendDatagramExt, SendStreamUnframed},
     server::Connection,
 };
-use h3_quinn::quinn;
-use h3_webtransport::{
+use quinn;
+use sec_http3::webtransport::{
     server::{self, WebTransportSession},
     stream,
 };
+use sec_http3::sec_http3_quinn as h3_quinn;
 use http::Method;
 use rustls::{Certificate, PrivateKey};
 use std::{net::SocketAddr, path::PathBuf, sync::Arc, time::Duration};
@@ -39,7 +40,7 @@ pub struct Certs {
     #[structopt(
         long,
         short,
-        default_value = "examples/localhost.crt",
+        default_value = "examples/server.cert",
         help = "Certificate for TLS. If present, `--key` is mandatory."
     )]
     pub cert: PathBuf,
@@ -47,7 +48,7 @@ pub struct Certs {
     #[structopt(
         long,
         short,
-        default_value = "examples/localhost.key",
+        default_value = "examples/server.key",
         help = "Private key for the certificate."
     )]
     pub key: PathBuf,
@@ -118,7 +119,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
             match new_conn.await {
                 Ok(conn) => {
                     info!("new http3 established");
-                    let h3_conn = h3::server::builder()
+                    let h3_conn = sec_http3::server::builder()
                         .enable_webtransport(true)
                         .enable_connect(true)
                         .enable_datagram(true)
@@ -275,12 +276,12 @@ where
     // backend.
     C: 'static
         + Send
-        + h3::quic::Connection<Bytes>
+        + sec_http3::quic::Connection<Bytes>
         + RecvDatagramExt<Buf = Bytes>
         + SendDatagramExt<Bytes>,
-    <C::SendStream as h3::quic::SendStream<Bytes>>::Error:
+    <C::SendStream as sec_http3::quic::SendStream<Bytes>>::Error:
         'static + std::error::Error + Send + Sync + Into<std::io::Error>,
-    <C::RecvStream as h3::quic::RecvStream>::Error:
+    <C::RecvStream as sec_http3::quic::RecvStream>::Error:
         'static + std::error::Error + Send + Sync + Into<std::io::Error>,
     stream::BidiStream<C::BidiStream, Bytes>:
         quic::BidiStream<Bytes> + Unpin + AsyncWrite + AsyncRead,

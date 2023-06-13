@@ -23,7 +23,7 @@ use crate::{
     server,
 };
 
-use super::h3_quinn;
+use crate::sec_http3_quinn;
 use super::{init_tracing, Pair};
 
 #[tokio::test]
@@ -332,7 +332,7 @@ async fn control_close_send_error() {
         //# error of type H3_CLOSED_CRITICAL_STREAM.
         control_stream.finish().await.unwrap(); // close the client control stream immediately
 
-        let (mut driver, _send) = client::new(h3_quinn::Connection::new(connection))
+        let (mut driver, _send) = client::new(sec_http3_quinn::Connection::new(connection))
             .await
             .unwrap();
 
@@ -474,7 +474,7 @@ async fn goaway_from_server_not_request_id() {
         control_stream.write_all(&buf[..]).await.unwrap();
         control_stream.finish().await.unwrap(); // close the client control stream immediately
 
-        let (mut driver, _send) = client::new(h3_quinn::Connection::new(connection))
+        let (mut driver, _send) = client::new(sec_http3_quinn::Connection::new(connection))
             .await
             .unwrap();
 

@@ -1,7 +1,10 @@
 use std::task::Poll;
 
 use bytes::{Buf, Bytes};
-use h3::{quic, stream::BufRecvStream};
+use crate::{
+    quic::{self},
+    stream::{BufRecvStream},
+};
 use pin_project_lite::pin_project;
 use tokio::io::ReadBuf;
 
@@ -129,7 +132,7 @@ where
         self.stream.send_id()
     }
 
-    fn send_data<T: Into<h3::stream::WriteBuf<B>>>(&mut self, data: T) -> Result<(), Self::Error> {
+    fn send_data<T: Into<crate::stream::WriteBuf<B>>>(&mut self, data: T) -> Result<(), Self::Error> {
         self.stream.send_data(data)
     }
 
@@ -238,7 +241,7 @@ where
         self.stream.poll_ready(cx)
     }
 
-    fn send_data<T: Into<h3::stream::WriteBuf<B>>>(&mut self, data: T) -> Result<(), Self::Error> {
+    fn send_data<T: Into<crate::stream::WriteBuf<B>>>(&mut self, data: T) -> Result<(), Self::Error> {
         self.stream.send_data(data)
     }
 }

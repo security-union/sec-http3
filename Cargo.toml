@@ -1,8 +1,6 @@
 [workspace]
 members = [
-    "h3",
-    "h3-quinn",
-    "h3-webtransport",
+    "sec-http3",
 
     # Internal
     "examples",

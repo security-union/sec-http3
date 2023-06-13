@@ -19,12 +19,13 @@ use futures::{
     stream::{self, BoxStream},
     StreamExt,
 };
+
 use quinn::ReadDatagram;
 pub use quinn::{
     self, crypto::Session, AcceptBi, AcceptUni, Endpoint, OpenBi, OpenUni, VarInt, WriteError,
 };
 
-use h3::{
+use crate::{
     ext::Datagram,
     quic::{self, Error, StreamId, WriteBuf},
 };
@@ -225,7 +226,7 @@ where
         }
     }
 
-    fn close(&mut self, code: h3::error::Code, reason: &[u8]) {
+    fn close(&mut self, code: crate::error::Code, reason: &[u8]) {
         self.conn.close(
             VarInt::from_u64(code.value()).expect("error code VarInt"),
             reason,
@@ -318,7 +319,7 @@ where
         Poll::Ready(Ok(Self::SendStream::new(send)))
     }
 
-    fn close(&mut self, code: h3::error::Code, reason: &[u8]) {
+    fn close(&mut self, code: crate::error::Code, reason: &[u8]) {
         self.conn.close(
             VarInt::from_u64(code.value()).expect("error code VarInt"),
             reason,

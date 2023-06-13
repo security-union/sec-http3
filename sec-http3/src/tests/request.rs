@@ -18,8 +18,6 @@ use crate::{
     },
     qpack, server,
 };
-
-use super::h3_quinn;
 use super::{init_tracing, Pair};
 
 #[tokio::test]
@@ -1420,12 +1418,12 @@ where
         let res = req_recv
             .read(&mut buf)
             .await
-            .map_err(Into::<h3_quinn::ReadError>::into)
+            .map_err(Into::<crate::sec_http3_quinn::ReadError>::into)
             .map_err(Into::<Error>::into)
             .map(|_| ());
         check(res);
 
-        let (mut driver, _send) = client::new(h3_quinn::Connection::new(connection))
+        let (mut driver, _send) = client::new(crate::sec_http3_quinn::Connection::new(connection))
             .await
             .unwrap();
 

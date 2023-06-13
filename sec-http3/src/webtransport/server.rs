@@ -9,7 +9,7 @@ use std::{
 
 use bytes::Buf;
 use futures_util::{future::poll_fn, ready, Future};
-use h3::{
+use crate::{
     connection::ConnectionState,
     error::{Code, ErrorLevel},
     ext::{Datagram, Protocol},
@@ -18,17 +18,17 @@ use h3::{
     quic::{self, OpenStreams, RecvDatagramExt, SendDatagramExt, WriteBuf},
     server::{self, Connection, RequestStream},
     Error,
+    stream::{ BufRecvStream, UniStreamHeader, BidiStreamHeader},
+    webtransport::stream::{BidiStream, SendStream, RecvStream},
 };
-use h3::{
+use self::{
     quic::SendStreamUnframed,
-    stream::{BidiStreamHeader, BufRecvStream, UniStreamHeader},
 };
 use http::{Method, Request, Response, StatusCode};
 
-use h3::webtransport::SessionId;
+use crate::webtransport::SessionId;
 use pin_project_lite::pin_project;
 
-use crate::stream::{BidiStream, RecvStream, SendStream};
 
 /// WebTransport session driver.
 ///
@@ -175,8 +175,8 @@ where
             }
             Err(err) => {
                 match err.kind() {
-                    h3::error::Kind::Closed => return Ok(None),
-                    h3::error::Kind::Application {
+                    crate::error::Kind::Closed => return Ok(None),
+                    crate::error::Kind::Application {
                         code,
                         reason,
                         level: ErrorLevel::ConnectionError,
