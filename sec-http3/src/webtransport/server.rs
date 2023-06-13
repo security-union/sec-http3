@@ -31,7 +31,7 @@ use pin_project_lite::pin_project;
 ///
 /// Maintains the session using the underlying HTTP/3 connection.
 ///
-/// Similar to [`sec_http3::server::Connection`] it is generic over the QUIC implementation and Buffer.
+/// Similar to [`crate::server::Connection`] it is generic over the QUIC implementation and Buffer.
 pub struct WebTransportSession<C, B>
 where
     C: quic::Connection<B>,
