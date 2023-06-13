@@ -114,9 +114,11 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
                 Ok(conn) => {
                     info!("new connection established");
 
-                    let mut h3_conn = sec_http3::server::Connection::new(sec_http3::sec_http3_quinn::Connection::new(conn))
-                        .await
-                        .unwrap();
+                    let mut h3_conn = sec_http3::server::Connection::new(
+                        sec_http3::sec_http3_quinn::Connection::new(conn),
+                    )
+                    .await
+                    .unwrap();
 
                     loop {
                         match h3_conn.accept().await {

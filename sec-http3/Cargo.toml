@@ -17,6 +17,7 @@ categories = [
     "network-programming",
     "web-programming::http-client",
     "web-programming::http-server",
+    "webtransport",
 ]
 
 [dependencies]

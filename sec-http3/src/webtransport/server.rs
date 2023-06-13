@@ -7,8 +7,7 @@ use std::{
     task::{Context, Poll},
 };
 
-use bytes::Buf;
-use futures_util::{future::poll_fn, ready, Future};
+use self::quic::SendStreamUnframed;
 use crate::{
     connection::ConnectionState,
     error::{Code, ErrorLevel},
@@ -17,18 +16,16 @@ use crate::{
     proto::frame::Frame,
     quic::{self, OpenStreams, RecvDatagramExt, SendDatagramExt, WriteBuf},
     server::{self, Connection, RequestStream},
+    stream::{BidiStreamHeader, BufRecvStream, UniStreamHeader},
+    webtransport::stream::{BidiStream, RecvStream, SendStream},
     Error,
-    stream::{ BufRecvStream, UniStreamHeader, BidiStreamHeader},
-    webtransport::stream::{BidiStream, SendStream, RecvStream},
 };
-use self::{
-    quic::SendStreamUnframed,
-};
+use bytes::Buf;
+use futures_util::{future::poll_fn, ready, Future};
 use http::{Method, Request, Response, StatusCode};
 
 use crate::webtransport::SessionId;
 use pin_project_lite::pin_project;
-
 
 /// WebTransport session driver.
 ///

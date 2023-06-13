@@ -12,9 +12,9 @@ pub mod server;
 
 pub use error::Error;
 
+pub mod sec_http3_quinn;
 #[allow(missing_docs)]
 pub mod webtransport;
-pub mod sec_http3_quinn;
 
 mod buf;
 
@@ -22,7 +22,6 @@ mod connection;
 mod frame;
 mod proto;
 mod stream;
-
 
 #[allow(dead_code)]
 mod qpack;

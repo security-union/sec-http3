@@ -5,6 +5,7 @@ use bytes::{Buf, BufMut, Bytes, BytesMut};
 use futures_util::future;
 use http::{request, HeaderMap, Request, Response, StatusCode};
 
+use super::{init_tracing, Pair};
 use crate::{
     client,
     connection::ConnectionState,
@@ -18,7 +19,6 @@ use crate::{
     },
     qpack, server,
 };
-use super::{init_tracing, Pair};
 
 #[tokio::test]
 async fn get() {

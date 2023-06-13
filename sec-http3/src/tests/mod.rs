@@ -1,5 +1,3 @@
-
-
 mod connection;
 mod request;
 
@@ -13,8 +11,8 @@ use std::{
 use bytes::Bytes;
 use rustls::{Certificate, PrivateKey};
 
-use crate::{quic, sec_http3_quinn};
 use crate::sec_http3_quinn::{quinn::TransportConfig, Connection};
+use crate::{quic, sec_http3_quinn};
 
 pub fn init_tracing() {
     let _ = tracing_subscriber::fmt()
@@ -69,7 +67,8 @@ impl Pair {
         let mut server_config = sec_http3_quinn::quinn::ServerConfig::with_crypto(Arc::new(crypto));
         server_config.transport = self.config.clone();
         let endpoint =
-            sec_http3_quinn::quinn::Endpoint::server(server_config, "[::]:0".parse().unwrap()).unwrap();
+            sec_http3_quinn::quinn::Endpoint::server(server_config, "[::]:0".parse().unwrap())
+                .unwrap();
 
         self.port = endpoint.local_addr().unwrap().port();
 

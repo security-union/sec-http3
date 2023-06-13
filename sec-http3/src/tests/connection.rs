@@ -23,8 +23,8 @@ use crate::{
     server,
 };
 
-use crate::sec_http3_quinn;
 use super::{init_tracing, Pair};
+use crate::sec_http3_quinn;
 
 #[tokio::test]
 async fn connect() {
