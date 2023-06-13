@@ -5,8 +5,6 @@ use structopt::StructOpt;
 use tokio::io::AsyncWriteExt;
 use tracing::{error, info};
 
-use quinn;
-
 static ALPN: &[u8] = b"h3";
 
 #[derive(StructOpt, Debug)]

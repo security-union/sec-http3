@@ -1,7 +1,7 @@
 use anyhow::{Context, Result};
 use bytes::{BufMut, Bytes, BytesMut};
 use http::Method;
-use quinn;
+
 use rustls::{Certificate, PrivateKey};
 use sec_http3::sec_http3_quinn as h3_quinn;
 use sec_http3::webtransport::{
