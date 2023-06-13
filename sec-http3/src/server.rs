@@ -8,10 +8,10 @@
 //! ```rust
 //! async fn doc<C>(conn: C)
 //! where
-//! C: h3::quic::Connection<bytes::Bytes>,
-//! <C as h3::quic::Connection<bytes::Bytes>>::BidiStream: Send + 'static
+//! C: sec_http3::quic::Connection<bytes::Bytes>,
+//! <C as sec_http3::quic::Connection<bytes::Bytes>>::BidiStream: Send + 'static
 //! {
-//!     let mut server_builder = h3::server::builder();
+//!     let mut server_builder = sec_http3::server::builder();
 //!     // Build the Connection
 //!     let mut h3_conn = server_builder.build(conn).await.unwrap();
 //!     loop {
@@ -37,9 +37,9 @@
 //!             Err(err) => {
 //!                 match err.get_error_level() {
 //!                     // break on connection errors
-//!                     h3::error::ErrorLevel::ConnectionError => break,
+//!                     sec_http3::error::ErrorLevel::ConnectionError => break,
 //!                     // continue on stream errors
-//!                     h3::error::ErrorLevel::StreamError => continue,
+//!                     sec_http3::error::ErrorLevel::StreamError => continue,
 //!                 }
 //!             }
 //!         }
@@ -48,7 +48,7 @@
 //! ```
 //!
 //! ## File server
-//! A ready-to-use example of a file server is available [here](https://github.com/hyperium/h3/blob/master/examples/client.rs)
+//! A ready-to-use example of a file server is available [here](https://github.com/security-union/sec-http3/blob/master/examples/client.rs)
 
 use std::{
     collections::HashSet,
@@ -532,10 +532,10 @@ where
 /// ```rust
 /// fn doc<C,B>(conn: C)
 /// where
-/// C: h3::quic::Connection<B>,
+/// C: sec_http3::quic::Connection<B>,
 /// B: bytes::Buf,
 /// {
-///     let mut server_builder = h3::server::builder();
+///     let mut server_builder = sec_http3::server::builder();
 ///     // Set the maximum header size
 ///     server_builder.max_field_section_size(1000);
 ///     // do not send grease types
