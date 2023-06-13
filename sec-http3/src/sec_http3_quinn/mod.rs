@@ -44,8 +44,8 @@ pub struct Connection {
 }
 
 impl Connection {
-    /// Create a [`Connection`] from a [`quinn::NewConnection`]
-    pub fn new(conn: quinn::Connection) -> Self {
+    /// Create a [`Connection`] from a [`quinn::Connection`]
+    pub fn new(conn: quinn::Connection) -> Self  {
         Self {
             conn: conn.clone(),
             incoming_bi: Box::pin(stream::unfold(conn.clone(), |conn| async {
