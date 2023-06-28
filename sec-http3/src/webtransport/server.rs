@@ -378,7 +378,10 @@ where
         match ready!(conn.inner.conn.poll_accept_datagram(cx))? {
             Some(v) => {
                 let datagram = Datagram::decode(v)?;
-                Poll::Ready(Ok(Some((datagram.stream_id().into(), datagram.payload))))
+                Poll::Ready(Ok(Some((
+                    datagram.stream_id().into(),
+                    datagram.into_payload(),
+                ))))
             }
             None => Poll::Ready(Ok(None)),
         }

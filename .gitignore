@@ -16,6 +16,7 @@ target/
 
 # Example Certificates
 localhost-key.pem
+localhost-pem.key
 localhost.crt
 localhost.key
 localhost.pem
