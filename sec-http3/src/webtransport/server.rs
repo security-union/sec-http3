@@ -1,7 +1,7 @@
 //! Provides the server side WebTransport session
 
 use std::{
-    marker::PhantomData,
+    marker::{PhantomData, Send},
     pin::Pin,
     sync::Mutex,
     task::{Context, Poll},
@@ -34,8 +34,8 @@ use pin_project_lite::pin_project;
 /// Similar to [`crate::server::Connection`] it is generic over the QUIC implementation and Buffer.
 pub struct WebTransportSession<C, B>
 where
-    C: quic::Connection<B>,
-    B: Buf,
+    C: quic::Connection<B> + Send,
+    B: Buf + Send,
 {
     // See: https://datatracker.ietf.org/doc/html/draft-ietf-webtrans-http3/#section-2-3
     session_id: SessionId,
@@ -47,8 +47,8 @@ where
 
 impl<C, B> WebTransportSession<C, B>
 where
-    C: quic::Connection<B>,
-    B: Buf,
+    C: quic::Connection<B> + Send,
+    B: Buf + Send,
 {
     /// Accepts a *CONNECT* request for establishing a WebTransport session.
     ///
